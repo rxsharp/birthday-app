@@ -22,18 +22,11 @@ export default class TodayBirthdayList extends React.Component {
 
   componentWillReceiveProps(nextProps){
     if(nextProps.updateUser[0] !== undefined){
-      let updatedPropID = nextProps.updateUser[0].id
-      let firstUserID = this.state.users[0].id
-
-      if (updatedPropID !== firstUserID){
           let newUser = nextProps.updateUser[0]
           var newState = Object.assign({}, this.state); // Clone the state obj in newState
           newState.users.unshift(newUser);
           this.setState(newState);
       }
-    }else{
-      this.setState({newUser: nextProps.updateUser});
-    }
   }
 
   render(){

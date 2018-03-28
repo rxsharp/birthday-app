@@ -10,21 +10,16 @@ export default class NameDateForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: '',
-      userBirthday: '',
       csrfToken: document.getElementsByName("csrf-token")[0].content,
       newUser: []
     }
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.userNameInput = this.userNameInput.bind(this);
-    this.userBithdayInput = this.userBithdayInput.bind(this);
   }
 
   handleSubmit(event){
     event.preventDefault();
     let today = new Date();
     var self = this;
-    let userBirthday = event.target.userBirthday.value;
 
     axios({
         method: 'POST',
@@ -33,8 +28,8 @@ export default class NameDateForm extends React.Component {
         },
         url: "/users.json",
         data: {
-          name: this.state.userName,
-          birthday: userBirthday
+          name: event.target.userName.value,
+          birthday: event.target.userBirthday.value
         }
       })
       .then(function (response) {
@@ -58,22 +53,13 @@ export default class NameDateForm extends React.Component {
 
   }
 
-  userNameInput(event){
-    this.setState({userName: event.target.value});
-  }
-  userBithdayInput(event){
-    this.setState({userBirthday: event.target.value});
-  }
-
   render(){
     return(
       <main>
         <p>Enter your birthday</p>
         <form onSubmit={this.handleSubmit}>
-          <input type="text" name="userName"
-            onChange={this.userNameInput} required/>
-          <input type="date" name="userBirthday"
-            onChange={this.userBithdayInput} required
+          <input type="text" name="userName" required/>
+          <input type="date" name="userBirthday" required
             max={dateFormat(new Date(), "isoDate")}/>
           <input type="submit" />
         </form>
